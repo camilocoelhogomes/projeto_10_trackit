@@ -22,7 +22,7 @@ function App() {
   const handleUserLoginChange = (input, value) => {
     const newUser = { ...userLogin };
     newUser[input] = value;
-    setUserLogin(newUser);
+    setUserLogin(newUser)
   }
 
   return (

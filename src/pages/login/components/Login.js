@@ -2,8 +2,12 @@ import LoginLogo from "../../../components/LoginLogo";
 import { Link } from 'react-router-dom';
 import { Button, Input } from "../../../components/StyledComponents";
 import styled from "styled-components";
+import { loginUser } from "../../../services/server";
 
-const Login = ({ handleUserLoginChange }) => {
+const Login = ({ handleUserLoginChange, userLogin }) => {
+    const login = () => {
+        loginUser(userLogin).then(res => console.log(res))
+    }
     return (
         <Container>
             <LoginLogo />
@@ -21,6 +25,7 @@ const Login = ({ handleUserLoginChange }) => {
             <Button
                 width={'100%'}
                 height={'45px'}
+                onClick={login}
             >
                 Entrar
             </Button>

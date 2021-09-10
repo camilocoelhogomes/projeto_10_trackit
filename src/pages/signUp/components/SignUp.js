@@ -2,9 +2,15 @@ import LoginLogo from "../../../components/LoginLogo";
 import { Link } from 'react-router-dom';
 import { Button, Input } from "../../../components/StyledComponents";
 import styled from "styled-components";
-import { signUpNewUser } from "../../../services/server";
+import { loginUser, signUpNewUser } from "../../../services/server";
 
 const SignUp = ({ handleUserLoginChange, userLogin }) => {
+
+    const registration = () => {
+        signUpNewUser(userLogin).then(
+            loginUser(userLogin).then(res => console.log(res))
+        )
+    }
 
     return (
         <Container>
@@ -13,7 +19,7 @@ const SignUp = ({ handleUserLoginChange, userLogin }) => {
             <Input type='password' width={'100%'} placeholder='senha' onChange={(e) => handleUserLoginChange('password', e.target.value)} />
             <Input width={'100%'} placeholder='nome' onChange={(e) => handleUserLoginChange('name', e.target.value)} />
             <Input width={'100%'} placeholder='foto' onChange={(e) => handleUserLoginChange('image', e.target.value)} />
-            <Button onClick={() => signUpNewUser(userLogin)} width={'100%'} height={'45px'}>Cadastrar</Button>
+            <Button onClick={registration} width={'100%'} height={'45px'}>Cadastrar</Button>
             <Link to='/'><p>Já tem uma conta? Faça login!</p></Link>
         </Container>
     )
