@@ -2,16 +2,18 @@ import LoginLogo from "../../../components/LoginLogo";
 import { Link } from 'react-router-dom';
 import { Button, Input } from "../../../components/StyledComponents";
 import styled from "styled-components";
+import { signUpNewUser } from "../../../services/server";
 
-const SignUp = () => {
+const SignUp = ({ handleUserLoginChange, userLogin }) => {
+
     return (
         <Container>
             <LoginLogo />
-            <Input width={'100%'} placeholder='e-mail' />
-            <Input width={'100%'} placeholder='senha' />
-            <Input width={'100%'} placeholder='nome' />
-            <Input width={'100%'} placeholder='foto' />
-            <Button width={'100%'} height={'45px'}>Entrar</Button>
+            <Input width={'100%'} placeholder='e-mail' onChange={(e) => handleUserLoginChange('email', e.target.value)} />
+            <Input type='password' width={'100%'} placeholder='senha' onChange={(e) => handleUserLoginChange('password', e.target.value)} />
+            <Input width={'100%'} placeholder='nome' onChange={(e) => handleUserLoginChange('name', e.target.value)} />
+            <Input width={'100%'} placeholder='foto' onChange={(e) => handleUserLoginChange('image', e.target.value)} />
+            <Button onClick={() => signUpNewUser(userLogin)} width={'100%'} height={'45px'}>Cadastrar</Button>
             <Link to='/'><p>Já tem uma conta? Faça login!</p></Link>
         </Container>
     )
@@ -32,3 +34,4 @@ const Container = styled.div`
         margin: 25px 0;
     }
 `;
+

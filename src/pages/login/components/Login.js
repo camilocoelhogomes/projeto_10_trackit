@@ -3,13 +3,27 @@ import { Link } from 'react-router-dom';
 import { Button, Input } from "../../../components/StyledComponents";
 import styled from "styled-components";
 
-const Login = () => {
+const Login = ({ handleUserLoginChange }) => {
     return (
         <Container>
             <LoginLogo />
-            <Input width={'100%'} placeholder='e-mail' />
-            <Input width={'100%'} placeholder='senha' />
-            <Button width={'100%'} height={'45px'}>Entrar</Button>
+            <Input
+                width={'100%'}
+                placeholder='e-mail'
+                onChange={(e) => handleUserLoginChange('email', e.target.value)}
+            />
+
+            <Input
+                type='password'
+                width={'100%'}
+                placeholder='senha'
+                onChange={(e) => handleUserLoginChange('password', e.target.value)} />
+            <Button
+                width={'100%'}
+                height={'45px'}
+            >
+                Entrar
+            </Button>
             <Link to='/cadastro'><p>Não tem conta? cadastra-se</p></Link>
         </Container>
     )
