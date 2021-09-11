@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from '../../contexts/UserContext';
 import styled from 'styled-components';
-import { Button, Input } from "../../components/StyledComponents";
+import { Button, Input, Day } from "../../components/StyledComponents";
 import { createNewHabit } from '../../services/server';
 
-const NewHabit = ({ newHabit, setNewHabit }) => {
+const NewHabit = ({ newHabit, setNewHabit, updateHabit }) => {
+    const { user } = useContext(UserContext);
 
     if (!newHabit) {
         return <div></div>
@@ -28,7 +30,7 @@ const NewHabit = ({ newHabit, setNewHabit }) => {
     }
 
     const saveHabit = () => {
-        createNewHabit().then(setNewHabit(null));
+        createNewHabit(newHabit, user.token).then(() => { setNewHabit(null); updateHabit() });
     }
 
     console.log(newHabit);
@@ -75,6 +77,7 @@ const NewHabitStyle = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 0 0 30px 0;
 
     .buttons{
         width: 100%;
@@ -92,21 +95,9 @@ const NewHabitStyle = styled.div`
             justify-content: center;
             align-items: center;
             font-size: 21px;
+            margin: 0 8px 0 0;
         }
     }
 
 `;
 
-const Day = styled.button`
-    background: ${({ name, selectedDays }) => selectedDays.includes(name) ? '#DBDBDB' : '#FFFFFF'};
-    color: ${({ name, selectedDays }) => selectedDays.includes(name) ? '#FFFFFF' : '#DBDBDB'};
-    border: 1px solid #D5D5D5;
-    box-sizing: border-box;
-    border-radius: 5px;
-    width: 30px;
-    height: 30px;
-    font-family: 'Lexend Deca', sans-serif;
-    margin: 0 4px 0 0;
-    font-size: 20px;
-    padding: 0;
-`

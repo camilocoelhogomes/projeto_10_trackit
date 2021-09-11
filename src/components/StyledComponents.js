@@ -29,4 +29,23 @@ const Input = styled.input`
 
 `;
 
-export { Button, Input };
+const Day = styled.button`
+    background: ${({ name, selectedDays }) => selectedDays.includes(name) ? '#DBDBDB' : '#FFFFFF'};
+    color: ${({ name, selectedDays }) => selectedDays.includes(name) ? '#FFFFFF' : '#DBDBDB'};
+    border: 1px solid #D5D5D5;
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    font-family: 'Lexend Deca', sans-serif;
+    margin: 0 4px 0 0;
+    font-size: 20px;
+    padding: 0;
+
+    :disabled{
+
+    }
+`
+
+
+export { Button, Input, Day };

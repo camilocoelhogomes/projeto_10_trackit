@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { useHistory } from 'react-router-dom'
 import UserContext from '../contexts/UserContext';
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components';
 
 const Top = () => {
     const history = useHistory();
     const { user } = useContext(UserContext);
-    console.log(user);
 
     if (!user) {
         history.push('/');

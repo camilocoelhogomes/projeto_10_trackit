@@ -25,8 +25,28 @@ const createNewHabit = (body, token) => {
     return axios.post(`${API}habits`, body, config);
 }
 
+const getHabits = (token) => {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    return axios.get(`${API}habits`, config)
+}
+
+const removeHabit = (id, token) => {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    return axios.delete(`${API}habits/${id}`, config);
+}
+
 export {
     signUpNewUser,
     loginUser,
-    createNewHabit
+    createNewHabit,
+    getHabits,
+    removeHabit,
 }

@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import UserContext from '../../contexts/UserContext';
 import styled from 'styled-components';
-import Top from '../../components/Top';
 import { Button } from '../../components/StyledComponents';
 import NewHabit from "./NewHabit";
+import { getHabits, removeHabit } from "../../services/server";
+import HabitCard from "./HabitCard";
+import Top from '../../components/Top';
 
 const Habits = () => {
+    const { user } = useContext(UserContext);
+
     const [newHabit, setNewHabit] = useState(null);
+    const [habits, setHabits] = useState(null);
+
+    const updateHabit = () => {
+        getHabits(user.token).then(res => setHabits(res.data));
+    }
+
+    const deleteHabit = (id) => {
+        const newerHabits = habits.filter(habit => habit.id !== id);
+        setHabits(newerHabits);
+        removeHabit(id, user.token).then(updateHabit);
+    }
+
+    useEffect(updateHabit, []);
 
     return (
         <div>
@@ -23,8 +41,15 @@ const Habits = () => {
                 </header>
                 {
                     !newHabit ? '' :
-                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} />
+                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} updateHabit={updateHabit} />
                 }
+                {
+                    !habits ?
+                        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
+                        habits.map(habit => <HabitCard key={habit.id} habit={habit} deleteHabit={deleteHabit} />)
+
+                }
+
             </Container>
         </div>
     )
@@ -50,5 +75,9 @@ const Container = styled.div`
             color: #126BA5;
             font-size: 24px;
         }
+    }
+    p{
+        color:#666666;
+        line-height: 22px;
     }
 `;
