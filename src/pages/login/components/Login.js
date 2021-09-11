@@ -1,13 +1,24 @@
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import UserContext from '../../../contexts/UserContext';
 import LoginLogo from "../../../components/LoginLogo";
 import { Link } from 'react-router-dom';
 import { Button, Input } from "../../../components/StyledComponents";
 import styled from "styled-components";
 import { loginUser } from "../../../services/server";
 
+
+
 const Login = ({ handleUserLoginChange, userLogin }) => {
+    const history = useHistory();
+
+    const { setUser } = useContext(UserContext);
+
     const login = () => {
-        loginUser(userLogin).then(res => console.log(res))
+        loginUser(userLogin).then(res => { setUser(res.data); history.push('/habitos') }
+        )
     }
+
     return (
         <Container>
             <LoginLogo />

@@ -1,12 +1,12 @@
 import Login from "./pages/login/components/Login";
 import SignUp from "./pages/signUp/components/SignUp";
 import React, { useState } from "react";
-
 import {
   BrowserRouter,
   Switch,
   Route
 } from "react-router-dom";
+import UserContext from "./contexts/UserContext";
 
 
 
@@ -25,20 +25,31 @@ function App() {
     setUserLogin(newUser)
   }
 
+  const [user, setUser] = useState(null);
+
   return (
-    < BrowserRouter >
-      <Switch>
 
-        <Route exact path='/'>
-          <Login handleUserLoginChange={handleUserLoginChange} userLogin={userLogin} />
-        </Route>
+    <UserContext.Provider value={{ user, setUser }}>
+      < BrowserRouter >
+        <Switch>
 
-        <Route exact path='/cadastro'>
-          <SignUp handleUserLoginChange={handleUserLoginChange} userLogin={userLogin} />
-        </Route>
+          <Route exact path='/'>
+            <Login handleUserLoginChange={handleUserLoginChange} userLogin={userLogin} />
+          </Route>
 
-      </Switch>
-    </BrowserRouter >
+          <Route exact path='/cadastro'>
+            <SignUp handleUserLoginChange={handleUserLoginChange} userLogin={userLogin} />
+          </Route>
+
+          <Route exact path='/habitos'>
+            <h1>Camilo</h1>
+          </Route>
+
+        </Switch>
+      </BrowserRouter >
+    </UserContext.Provider>
+
+
   );
 }
 

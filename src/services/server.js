@@ -4,8 +4,7 @@ const API = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/'
 
 const signUpNewUser = (newUser) => {
     const body = newUser;
-    const promise = axios.post(`${API}auth/sign-up`, body);
-    return promise;
+    return axios.post(`${API}auth/sign-up`, body);
 }
 
 const loginUser = (user) => {
@@ -13,9 +12,7 @@ const loginUser = (user) => {
         email: user.email,
         password: user.password
     }
-    console.log(body);
     const promise = axios.post(`${API}auth/login`, body);
-    console.log(promise);
     return promise;
 }
 
