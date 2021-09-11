@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import UserContext from '../../../contexts/UserContext';
 import LoginLogo from "../../../components/LoginLogo";
 import { Link } from 'react-router-dom';

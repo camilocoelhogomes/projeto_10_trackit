@@ -7,6 +7,7 @@ import {
   Route
 } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
+import Habits from "./pages/habits/Habits";
 
 
 
@@ -42,7 +43,7 @@ function App() {
           </Route>
 
           <Route exact path='/habitos'>
-            <h1>Camilo</h1>
+            <Habits />
           </Route>
 
         </Switch>
