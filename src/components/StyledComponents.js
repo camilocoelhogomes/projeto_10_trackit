@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-    height: ${(height) => height};
+    height: ${({ height }) => height};
     width: ${({ width }) => width};
     color: #FFFFFF;
     background-color: #52B6FF;
     border-radius: 5px;
     border: none;
     font-family: var(--font-body);
-    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: ${({ fontSize }) => fontSize ? fontSize : '21px'};;
 `;
 
 const Input = styled.input`
