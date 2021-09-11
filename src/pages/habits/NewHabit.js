@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import { Button, Input } from "../../components/StyledComponents";
+import { createNewHabit } from '../../services/server';
 
 const NewHabit = ({ newHabit, setNewHabit }) => {
 
@@ -25,6 +26,11 @@ const NewHabit = ({ newHabit, setNewHabit }) => {
         }
         setNewHabit(newerHabit);
     }
+
+    const saveHabit = () => {
+        createNewHabit().then(setNewHabit(null));
+    }
+
     console.log(newHabit);
     return (
         <NewHabitStyle>
@@ -48,8 +54,9 @@ const NewHabit = ({ newHabit, setNewHabit }) => {
                 </div>
             </div>
             <div className='buttons'>
+
                 <button className='cancel' onClick={() => setNewHabit(null)}> Cancelar </button>
-                <Button width={'84px'} height={'35px'}>Salvar</Button>
+                <Button width={'84px'} height={'35px'} onClick={() => saveHabit()}>Salvar</Button>
 
             </div>
         </NewHabitStyle>
@@ -68,10 +75,12 @@ const NewHabitStyle = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     .buttons{
         width: 100%;
         display: flex;
         justify-content: flex-end;
+        
         .cancel{
             height: 35px;
             color: #52B6FF;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from 'styled-components';
 import Top from '../../components/Top';
 import { Button } from '../../components/StyledComponents';
-import { AddOutline } from 'react-ionicons';
 import NewHabit from "./NewHabit";
 
 const Habits = () => {

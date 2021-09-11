@@ -16,7 +16,17 @@ const loginUser = (user) => {
     return promise;
 }
 
+const createNewHabit = (body, token) => {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    return axios.post(`${API}habits`, body, config);
+}
+
 export {
     signUpNewUser,
-    loginUser
+    loginUser,
+    createNewHabit
 }
