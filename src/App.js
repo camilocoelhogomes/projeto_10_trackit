@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import UserContext from "./contexts/UserContext";
 import Habits from "./pages/habits/Habits";
+import ToDay from "./pages/toDay/ToDay";
 
 
 
@@ -44,6 +45,10 @@ function App() {
 
           <Route exact path='/habitos'>
             <Habits />
+          </Route>
+
+          <Route exact path='/hoje'>
+            <ToDay />
           </Route>
 
         </Switch>

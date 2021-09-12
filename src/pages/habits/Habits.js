@@ -3,16 +3,17 @@ import UserContext from '../../contexts/UserContext';
 import styled from 'styled-components';
 import { Button } from '../../components/StyledComponents';
 import NewHabit from "./NewHabit";
-import { getHabits, removeHabit } from "../../services/server";
+import { getHabits, removeHabit, createNewHabit } from "../../services/server";
 import HabitCard from "./HabitCard";
 import Top from '../../components/Top';
+import BottonBar from "../../components/BottonBar";
 
 const Habits = () => {
     const { user } = useContext(UserContext);
 
     const [newHabit, setNewHabit] = useState(null);
-    const [habits, setHabits] = useState(null);
-
+    const [habits, setHabits] = useState([]);
+    console.log(habits);
     const updateHabit = () => {
         getHabits(user.token).then(res => setHabits(res.data));
     }
@@ -23,6 +24,11 @@ const Habits = () => {
         removeHabit(id, user.token).then(updateHabit);
     }
 
+    const saveHabit = () => {
+        setHabits([...habits, newHabit]);
+        setNewHabit(null);
+        createNewHabit(newHabit, user.token).then(() => { updateHabit() });
+    }
     useEffect(updateHabit, []);
 
     return (
@@ -41,15 +47,15 @@ const Habits = () => {
                 </header>
                 {
                     !newHabit ? '' :
-                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} updateHabit={updateHabit} />
+                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} saveHabit={saveHabit} />
                 }
                 {
-                    !habits ?
+                    habits.length === 0 ?
                         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
                         habits.map(habit => <HabitCard key={habit.id} habit={habit} deleteHabit={deleteHabit} />)
 
                 }
-
+                <BottonBar />
             </Container>
         </div>
     )
@@ -62,7 +68,7 @@ const Container = styled.div`
     padding: 0 18px;
     box-sizing: border-box;
     background-color: #F2F2F2;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 140px);
 
     header{
         width: 100%;

@@ -15,7 +15,7 @@ const Login = ({ handleUserLoginChange, userLogin }) => {
     const { setUser } = useContext(UserContext);
 
     const login = () => {
-        loginUser(userLogin).then(res => { setUser(res.data); history.push('/habitos') }
+        loginUser(userLogin).then(res => { setUser(res.data); history.push('/hoje') }
         )
     }
 

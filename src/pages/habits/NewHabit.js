@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { Button, Input, Day } from "../../components/StyledComponents";
 import { createNewHabit } from '../../services/server';
 
-const NewHabit = ({ newHabit, setNewHabit, updateHabit }) => {
-    const { user } = useContext(UserContext);
+const NewHabit = ({ newHabit, setNewHabit, saveHabit }) => {
 
     if (!newHabit) {
         return <div></div>
@@ -29,9 +28,7 @@ const NewHabit = ({ newHabit, setNewHabit, updateHabit }) => {
         setNewHabit(newerHabit);
     }
 
-    const saveHabit = () => {
-        createNewHabit(newHabit, user.token).then(() => { setNewHabit(null); updateHabit() });
-    }
+
 
     console.log(newHabit);
     return (
