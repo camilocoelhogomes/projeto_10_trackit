@@ -17,7 +17,7 @@ const SignUp = ({ handleUserLoginChange, userLogin }) => {
         signUpNewUser(userLogin).then(
             loginUser(userLogin)
                 .then(res => history.push('/'))
-                .catch(setDisabled(false))
+                .catch(() => { alert('Não foi dessa vez'); setDisabled(false) })
         )
     }
 
