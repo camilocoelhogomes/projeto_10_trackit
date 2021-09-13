@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import UserContext from '../../contexts/UserContext';
 import BottonBar from "../../components/BottonBar";
 import Top from '../../components/Top';
 import styled from 'styled-components';
+import ToDayHabit from "./ToDayHabit";
+import { checkHabitSever, getTodayHabits } from "../../services/server";
 
 const ToDay = () => {
-
+    const { user } = useContext(UserContext);
     const [date, setDate] = useState(new Date());
+    const [toDayHabits, setToDayHabits] = useState([]);
 
+    const updateToDay = () => {
+        getTodayHabits(user.token).then(res => setToDayHabits(res.data));
+    }
+
+    const updateHabit = (habit, id) => {
+        if (habit.id !== id) {
+            return '';
+        }
+
+        if (habit.currentSequence === habit.highestSequence && !habit.done) {
+            habit.currentSequence++;
+            habit.highestSequence++;
+        } else if (habit.currentSequence === habit.highestSequence && habit.done) {
+            habit.currentSequence--;
+            habit.highestSequence--;
+        }
+
+        if (habit.currentSequence < habit.highestSequence && !habit.done) {
+            habit.currentSequence++;
+        } else if (habit.currentSequence < habit.highestSequence && habit.done) {
+            habit.currentSequence--;
+        }
+
+        habit.done = !habit.done;
+    }
+
+    const checkHabit = (id) => {
+        const newToDay = [...toDayHabits];
+
+        newToDay.forEach(habit => updateHabit(habit, id));
+        setToDayHabits(newToDay);
+
+        if (toDayHabits.filter(habit => habit.id === id)[0].done) {
+            checkHabitSever(id, user.token).then(updateToDay);
+        }
+    }
+
+    useEffect(updateToDay, []);
     return (
         <div>
             <Top />
@@ -27,6 +69,11 @@ const ToDay = () => {
                         Nenhum hábito concluido ainda
                     </p>
                 </header>
+                <ul>
+                    {
+                        toDayHabits.map((habit) => <ToDayHabit key={habit.id} habit={habit} checkHabit={checkHabit} />)
+                    }
+                </ul>
             </Main>
             <BottonBar />
         </div>
@@ -36,7 +83,7 @@ const ToDay = () => {
 export default ToDay;
 
 const Main = styled.main`
-    height: calc(100vh - 140px);
+    min-height: calc(100vh - 140px);
     background-color: #F2F2F2;
     padding: 0 18px;
 
@@ -45,6 +92,7 @@ const Main = styled.main`
         font-size: 22.976px;
         line-height: 29px;
         color: #126BA5;
+        margin: 0 0 20px 0;
     }
 
     p {

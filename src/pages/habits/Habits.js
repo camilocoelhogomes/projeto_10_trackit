@@ -13,7 +13,7 @@ const Habits = () => {
 
     const [newHabit, setNewHabit] = useState(null);
     const [habits, setHabits] = useState([]);
-    console.log(habits);
+
     const updateHabit = () => {
         getHabits(user.token).then(res => setHabits(res.data));
     }
