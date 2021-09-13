@@ -3,20 +3,26 @@ import UserContext from '../../contexts/UserContext';
 import styled from 'styled-components';
 import { Button } from '../../components/StyledComponents';
 import NewHabit from "./NewHabit";
-import { getHabits, removeHabit, createNewHabit } from "../../services/server";
+import { getHabits, removeHabit, createNewHabit, getTodayHabits } from "../../services/server";
 import HabitCard from "./HabitCard";
 import Top from '../../components/Top';
 import BottonBar from "../../components/BottonBar";
 
 const Habits = () => {
-    const { user } = useContext(UserContext);
+    const { user, setConcluded } = useContext(UserContext);
 
     const [newHabit, setNewHabit] = useState(null);
     const [habits, setHabits] = useState([]);
     const [disabled, setDisabled] = useState(false);
 
+    const updateToDay = () => {
+        getTodayHabits(user.token).then(res => {
+            setConcluded(res.data.filter(habit => habit.done).length / res.data.length);
+        });
+    }
+
     const updateHabit = () => {
-        getHabits(user.token).then(res => { setHabits(res.data); setNewHabit(null); setDisabled(false); });
+        getHabits(user.token).then(res => { setHabits(res.data); setNewHabit(null); setDisabled(false); updateToDay() });
 
     }
 
