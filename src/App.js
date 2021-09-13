@@ -9,7 +9,7 @@ import {
 import UserContext from "./contexts/UserContext";
 import Habits from "./pages/habits/Habits";
 import ToDay from "./pages/toDay/ToDay";
-
+import History from "./pages/histoy/History";
 
 
 function App() {
@@ -51,6 +51,10 @@ function App() {
 
           <Route exact path='/hoje'>
             <ToDay />
+          </Route>
+
+          <Route exact path='/historico'>
+            <History />
           </Route>
 
         </Switch>

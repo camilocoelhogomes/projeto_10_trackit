@@ -15,7 +15,8 @@ const ToDay = () => {
     const updateToDay = () => {
         getTodayHabits(user.token).then(res => {
             setToDayHabits(res.data)
-            setConcluded(toDayHabits.filter(habit => habit.done).length / toDayHabits.length);
+            setConcluded(
+                toDayHabits.length === 0 ? 0 : toDayHabits.filter(habit => habit.done).length / toDayHabits.length);
             setDisabled(false);
         });
     }

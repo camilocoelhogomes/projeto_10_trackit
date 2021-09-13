@@ -11,7 +11,11 @@ const Button = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: ${({ fontSize }) => fontSize ? fontSize : '21px'};;
+    font-size: ${({ fontSize }) => fontSize ? fontSize : '21px'};
+    
+    :disabled {
+        background-color: #86CCFD;
+    }
 `;
 
 const Input = styled.input`
@@ -25,6 +29,11 @@ const Input = styled.input`
     
     ::placeholder{
         color: #DBDBDB;
+    }
+
+    :disabled {
+        background-color: #F2F2F2;
+        color: #AFAFAF;
     }
 
 `;

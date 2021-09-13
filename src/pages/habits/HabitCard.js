@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Day } from '../../components/StyledComponents';
 import { TrashOutline } from 'react-ionicons'
 
-const HabitCard = ({ habit, deleteHabit }) => {
+const HabitCard = ({ habit, deleteHabit, disabled }) => {
 
     const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
@@ -23,7 +23,7 @@ const HabitCard = ({ habit, deleteHabit }) => {
                 )
             }
         </div>
-        <button className='trash' onClick={() => { console.log(habit.id); deleteHabit(habit.id) }}>
+        <button className='trash' disabled={disabled} onClick={() => { console.log(habit.id); deleteHabit(habit.id) }}>
             <TrashOutline
                 color={'#00000'}
                 height="20px"

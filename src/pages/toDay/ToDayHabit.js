@@ -13,8 +13,18 @@ const ToDayHabit = ({ habit, checkHabit }) => {
                 <h1>{habit.name}</h1>
 
                 <div>
-                    <p>Sequência atual: <span> {habit.currentSequence} dias</span></p>
-                    <p>Seu recorde: {habit.highestSequence} dias</p>
+                    <p>
+                        Sequência atual: {' '}
+                        <span className={'green'}>
+                            {habit.currentSequence} dias
+                        </span>
+                    </p>
+                    <p>
+                        Seu recorde: {' '}
+                        <span className={habit.highestSequence === habit.currentSequence ? 'green' : ''}>
+                            {habit.highestSequence} dias
+                        </span>
+                    </p>
                 </div>
             </div>
 
@@ -63,7 +73,7 @@ const ToDayHabitStyled = styled.li`
         color: #666666;
     }
 
-    span{
+    .green{
         color: #8FC549;
     }
 

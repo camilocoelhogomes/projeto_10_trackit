@@ -13,21 +13,31 @@ const Habits = () => {
 
     const [newHabit, setNewHabit] = useState(null);
     const [habits, setHabits] = useState([]);
+    const [disabled, setDisabled] = useState(false);
 
     const updateHabit = () => {
-        getHabits(user.token).then(res => setHabits(res.data));
+        getHabits(user.token).then(res => { setHabits(res.data); setNewHabit(null); setDisabled(false); });
+
     }
 
     const deleteHabit = (id) => {
-        const newerHabits = habits.filter(habit => habit.id !== id);
-        setHabits(newerHabits);
-        removeHabit(id, user.token).then(updateHabit);
+        if (window.confirm('Vai me deletar?')) {
+            const newerHabits = habits.filter(habit => habit.id !== id);
+            setHabits(newerHabits);
+            setDisabled(true);
+            removeHabit(id, user.token).then(updateHabit).catch(() => setDisabled(false));
+        }
     }
 
-    const saveHabit = () => {
-        setHabits([...habits, newHabit]);
-        setNewHabit(null);
-        createNewHabit(newHabit, user.token).then(() => { updateHabit() });
+    const saveHabit = (e) => {
+        e.preventDefault();
+        if (newHabit.days.length === 0) {
+            return;
+        }
+        setDisabled(true);
+        createNewHabit(newHabit, user.token)
+            .then(updateHabit)
+            .catch(() => setDisabled(false));
     }
     useEffect(updateHabit, []);
 
@@ -47,12 +57,12 @@ const Habits = () => {
                 </header>
                 {
                     !newHabit ? '' :
-                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} saveHabit={saveHabit} />
+                        <NewHabit newHabit={newHabit} setNewHabit={setNewHabit} saveHabit={saveHabit} disabled={disabled} />
                 }
                 {
                     habits.length === 0 ?
                         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
-                        habits.map(habit => <HabitCard key={habit.id} habit={habit} deleteHabit={deleteHabit} />)
+                        habits.map(habit => <HabitCard key={habit.id} habit={habit} deleteHabit={deleteHabit} disabled={disabled} />)
 
                 }
                 <BottonBar />

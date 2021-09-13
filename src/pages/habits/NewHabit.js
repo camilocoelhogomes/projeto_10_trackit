@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import UserContext from '../../contexts/UserContext';
+import React, { useState } from "react";
 import styled from 'styled-components';
 import { Button, Input, Day } from "../../components/StyledComponents";
-import { createNewHabit } from '../../services/server';
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const NewHabit = ({ newHabit, setNewHabit, saveHabit }) => {
+const NewHabit = ({ newHabit, setNewHabit, saveHabit, disabled }) => {
+
 
     if (!newHabit) {
         return <div></div>
@@ -32,21 +33,28 @@ const NewHabit = ({ newHabit, setNewHabit, saveHabit }) => {
 
     console.log(newHabit);
     return (
-        <NewHabitStyle>
+        <NewHabitStyle onSubmit={saveHabit}>
             <div>
 
                 <Input width={'100%'}
                     placeholder='Nome do Hábito'
                     onChange={e => handleNewHabit(e.target.value)}
+                    required
+                    disabled={disabled}
                 />
                 <div className='days'>
                     {
                         days.map((day, key) =>
-                            <Day onClick={() => handleDays(key)}
+                            <Day
+                                onClick={() => handleDays(key)}
                                 key={key}
                                 name={key}
-                                selectedDays={newHabit.days}>
+                                selectedDays={newHabit.days}
+                                disabled={disabled}
+                                type="button"
+                            >
                                 {day}
+
                             </Day>
                         )
                     }
@@ -55,7 +63,17 @@ const NewHabit = ({ newHabit, setNewHabit, saveHabit }) => {
             <div className='buttons'>
 
                 <button className='cancel' onClick={() => setNewHabit(null)}> Cancelar </button>
-                <Button width={'84px'} height={'35px'} onClick={() => saveHabit()}>Salvar</Button>
+                <Button disabled={disabled} width={'84px'} height={'35px'}>
+                    {!disabled ? 'Salvar' :
+                        <Loader
+                            type="ThreeDots"
+                            color="#FFFFFF"
+                            height={50}
+                            width={50}
+                        />
+                    }
+
+                </Button>
 
             </div>
         </NewHabitStyle>
@@ -64,7 +82,7 @@ const NewHabit = ({ newHabit, setNewHabit, saveHabit }) => {
 
 export default NewHabit;
 
-const NewHabitStyle = styled.div`
+const NewHabitStyle = styled.form`
     height: 180px;
     width: 100%;
     background-color: #FFFFFF;
