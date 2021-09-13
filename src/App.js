@@ -21,6 +21,8 @@ function App() {
     image: '',
   });
 
+  const [concluded, setConcluded] = useState(0);
+
   const handleUserLoginChange = (input, value) => {
     const newUser = { ...userLogin };
     newUser[input] = value;
@@ -31,7 +33,7 @@ function App() {
 
   return (
 
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, concluded, setConcluded }}>
       < BrowserRouter >
         <Switch>
 

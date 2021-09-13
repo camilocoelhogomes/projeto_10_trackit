@@ -4,19 +4,24 @@ import BottonBar from "../../components/BottonBar";
 import Top from '../../components/Top';
 import styled from 'styled-components';
 import ToDayHabit from "./ToDayHabit";
-import { checkHabitSever, getTodayHabits } from "../../services/server";
+import { checkHabitSever, getTodayHabits, unCheckHabitSever } from "../../services/server";
 
 const ToDay = () => {
-    const { user } = useContext(UserContext);
-    const [date, setDate] = useState(new Date());
+    const { user, concluded, setConcluded } = useContext(UserContext);
+    const date = new Date();
     const [toDayHabits, setToDayHabits] = useState([]);
+    const [disabled, setDisabled] = useState(true);
 
     const updateToDay = () => {
-        getTodayHabits(user.token).then(res => setToDayHabits(res.data));
+        getTodayHabits(user.token).then(res => {
+            setToDayHabits(res.data)
+            setConcluded(toDayHabits.filter(habit => habit.done).length / toDayHabits.length);
+            setDisabled(false);
+        });
     }
 
     const updateHabit = (habit, id) => {
-        if (habit.id !== id) {
+        if (habit.id !== id || disabled) {
             return '';
         }
 
@@ -38,13 +43,26 @@ const ToDay = () => {
     }
 
     const checkHabit = (id) => {
+
         const newToDay = [...toDayHabits];
 
         newToDay.forEach(habit => updateHabit(habit, id));
         setToDayHabits(newToDay);
+        setConcluded(toDayHabits.filter(habit => habit.done).length / toDayHabits.length);
 
-        if (toDayHabits.filter(habit => habit.id === id)[0].done) {
-            checkHabitSever(id, user.token).then(updateToDay);
+        if (!disabled) {
+            setDisabled(true);
+
+            if (toDayHabits.filter(habit => habit.id === id)[0].done) {
+                checkHabitSever(id, user.token)
+                    .then(() => { updateToDay() })
+                    .catch(() => { updateToDay() });
+            }
+            if (!toDayHabits.filter(habit => habit.id === id)[0].done) {
+                unCheckHabitSever(id, user.token)
+                    .then(() => { updateToDay() })
+                    .catch(() => { updateToDay() });
+            }
         }
     }
 
@@ -65,13 +83,20 @@ const ToDay = () => {
                                 .slice(1)
                         }
                     </h1>
-                    <p>
-                        Nenhum hábito concluido ainda
-                    </p>
+
+                    {
+                        !concluded ?
+                            <p>Nenhum hábito concluido ainda</p> :
+                            <p className='someHabitConcluded'>{Math.round(concluded * 100)}% dos hábitos concluidos</p>
+                    }
                 </header>
                 <ul>
                     {
-                        toDayHabits.map((habit) => <ToDayHabit key={habit.id} habit={habit} checkHabit={checkHabit} />)
+                        toDayHabits.map((habit) => <ToDayHabit
+                            key={habit.id}
+                            habit={habit}
+                            checkHabit={checkHabit}
+                        />)
                     }
                 </ul>
             </Main>
@@ -99,6 +124,9 @@ const Main = styled.main`
         font-size: 17.976px;
         line-height: 22px;
         color: #BABABA;
+    }
+    .someHabitConcluded{
+        color:#8FC549;
     }
 
 `;

@@ -61,6 +61,15 @@ const checkHabitSever = (id, token) => {
     return axios.post(`${API}habits/${id}/check`, {}, config);
 }
 
+const unCheckHabitSever = (id, token) => {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    return axios.post(`${API}habits/${id}/uncheck`, {}, config);
+}
+
 export {
     signUpNewUser,
     loginUser,
@@ -69,4 +78,5 @@ export {
     removeHabit,
     getTodayHabits,
     checkHabitSever,
+    unCheckHabitSever,
 }
