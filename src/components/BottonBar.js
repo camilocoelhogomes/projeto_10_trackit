@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const BottonBar = () => {
+    const { concluded } = useContext(UserContext);
     return (
         <BottonBarStyled>
             <Link className='normalButton' to='/habitos'>
                 Hábitos
             </Link>
             <Link className='toDay' to='/hoje'>
-                Hoje
+                <CircularProgressbar
+                    value={concluded}
+                    maxValue={1}
+                    text={'Hoje'}
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                        backgroundColor: "#52B6FF",
+                        textColor: "#fff",
+                        pathColor: "#fff",
+                        trailColor: "transparent"
+                    })}
+                />
             </Link>
             <Link className='normalButton' to='/historico'>
                 Histórico
